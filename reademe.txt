@@ -1,1 +1,115 @@
-hero patterns 
+javascript
+
+const quoteContainer = document.getElementById("quote-container");
+
+This line assigns the DOM element with the ID "quote-container" to a constant named quoteContainer.
+
+javascript
+
+const quoteText = document.getElementById("quote");
+
+This line assigns the DOM element with the ID "quote" to a constant named quoteText.
+
+javascript
+
+const authorText = document.getElementById("author");
+
+This line assigns the DOM element with the ID "author" to a constant named authorText.
+
+javascript
+
+const twitterBtn = document.getElementById("twitter");
+
+This line assigns the DOM element with the ID "twitter" to a constant named twitterBtn.
+
+javascript
+
+const newQuoteBtn = document.getElementById("new-quote");
+
+This line assigns the DOM element with the ID "new-quote" to a constant named newQuoteBtn.
+
+javascript
+
+const loader = document.getElementById("loader");
+
+This line assigns the DOM element with the ID "loader" to a constant named loader.
+
+javascript
+
+let apiQuotes = [];
+
+This line initializes an empty array named apiQuotes.
+
+javascript
+
+function showLoadingSpinner(){
+    loader.hidden = false;
+    quoteContainer.hidden = true;
+}
+
+This function displays a loading spinner by setting the hidden property of loader to false and the hidden property of quoteContainer to true.
+
+javascript
+
+function removeLoadingSpinner(){
+    loader.hidden = true;
+    quoteContainer.hidden = false;
+}
+
+This function removes the loading spinner by setting the hidden property of loader to true and the hidden property of quoteContainer to false.
+
+javascript
+
+function newQuote() {
+    showLoadingSpinner();// pick a rondom quote from apiQuotes array
+    const quote = apiQuotes[Math.floor(Math.random() * apiQuotes.length)];
+    authorText.textContent = quote.author ? quote.author : "Unknown";
+    quoteText.textContent = quote.text;
+    removeLoadingSpinner();
+}
+
+This function displays a loading spinner, selects a random quote from the apiQuotes array, sets the textContent property of authorText to the author of the quote (if available) or "Unknown", and sets the textContent property of quoteText to the text of the quote. Finally, it removes the loading spinner.
+
+javascript
+
+async function getQuotes() {
+    showLoadingSpinner();
+    const apiUrl = "https://jacintodesign.github.io/quotes-api/data/quotes.json";
+    try {
+        const response = await fetch(apiUrl);
+        apiQuotes = await response.json();
+        newQuote();
+    } catch (error) {
+        // catch error
+        alert(error);
+    }
+}
+
+This asynchronous function displays a loading spinner, fetches the JSON data from a specified URL using the fetch() method, assigns the resulting array to apiQuotes, and calls the newQuote() function to display a new quote. If an error occurs, an alert is displayed.
+
+javascript
+
+function tweetQuote() {
+    const twitterUrl = `https://twitter.com/intent/tweet?text=${quoteText.textContent} - ${authorText.textContent}`;
+    window.open(twitterUrl, '_blank');
+}
+
+This function creates a URL for a tweet using the text of the quote and the author's name (if available), and opens a new browser window to the Twitter website with the tweet text and URL pre-filled.
+
+javascript
+
+newQuoteBtn.addEventListener('click',newQuote);
+twitterBtn.addEventListener('click',tweetQuote);
+
+These event listeners add a click event to the newQuoteBtn and `twitterBtn DOM elements that call the newQuote() and tweetQuote() functions respectively when clicked.
+
+javascript
+
+getQuotes();
+
+This line calls the getQuotes() function when the script is loaded, which displays a loading spinner and fetches a random quote from an API, and then displays it on the webpage.
+
+Overall, this code defines functions and event listeners to display a random quote from an API and allow users to tweet the quote. The loading spinner is displayed while the API is being fetched, and removed once the quote is displayed.
+
+
+
